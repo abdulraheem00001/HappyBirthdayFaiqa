@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Fiyka</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="responsiveness.css">
+</head>
+
+<body>
+    <div id="FirstPage">
+        <h1>This gift is just for you 🎁—hope it brings a smile to your face!</h1>
+        <div id="balloons">
+            <svg id="balloon" class="balloon" width="244" height="303" xmlns="http://www.w3.org/2000/svg"
+                onclick="handleBalloonClick(this)">
+                <g fill="none" fill-rule="evenodd">
+                    <!-- The string of the balloon -->
+                    <path stroke="#D5D5D5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                        d="M121.871 204L121 303"></path>
+                    <!-- Balloon group -->
+                    <g transform="translate(73 69)">
+                        <!-- Balloon -->
+                        <ellipse id="balloon-ellipse" fill="#8128D0" fill-rule="nonzero" cx="48.752" cy="59.286"
+                            rx="48.752" ry="59.286"></ellipse>
+                        <!-- Bottom part of the balloon -->
+                        <path
+                            d="M50.796 114.923l7.888 13.523a1.5 1.5 0 01-1.296 2.256H41.612a1.5 1.5 0 01-1.296-2.256l7.888-13.523a1.5 1.5 0 012.592 0z"
+                            fill="#8128D0"></path>
+                        <!-- Shiny part of the balloon -->
+                        <ellipse fill="#FFF" opacity=".25" cx="20.204" cy="62.7" rx="8.083" ry="23.1"></ellipse>
+                    </g>
+                    <!-- Text inside the balloon -->
+                    <text font-family="RobotoSlab-Bold, Roboto Slab" font-size="36" font-weight="bold" fill="#FFF">
+                        <tspan x="50%" y="142" text-anchor="middle" class="select-none">1</tspan>
+                    </text>
+                </g>
+            </svg>
+        </div>
+        <h2>Tap on Balloon</h2>
+
+        <audio id="popSound" src="balloonpop-83760.mp3" preload="auto"></audio>
+    </div>
+    <div id="SecondPage">
+        <h1>Today is your day!</h1>
+        <img src="bday-stock-balloons.webp" alt="" width="30%">
+        <h1>Happy Birthday Faiqa!🎈 Hope Your day is as special as you are!</h1>
+        <audio src="loud-short-firework-pop-180115.mp3"></audio>
+        <audio id="happyBirthday" src="happy-birthday-to-you-piano-version-13976.mp3"></audio>
+    </div>
+
+    <script>
+        let balloonCount = 1;
+        const maxBalloons = 19;
+        const balloonColors = ['#8128D0', '#D02828', '#28D0B6', '#D0A828', '#D028A5'];
+
+        function handleBalloonClick(clickedBalloon) {
+            // Check if the balloon has already been clicked
+            if (clickedBalloon.classList.contains('clicked')) return;
+
+            // Play the sound
+            const popSound = document.getElementById('popSound');
+            popSound.play();
+
+            // Add 'clicked' class to prevent further clicks
+            clickedBalloon.classList.add('clicked');
+
+            // Animate and pop the clicked balloon
+            clickedBalloon.classList.add('animate-balloon');
+
+            clickedBalloon.addEventListener('animationend', function () {
+                clickedBalloon.classList.remove('animate-balloon');
+
+                // Remove the balloon
+                clickedBalloon.remove();
+
+                // Increment balloon count
+                balloonCount++;
+
+                // Check if it's time to switch to the second page
+                if (balloonCount > maxBalloons) {
+                    // Hide the first page and show the second page
+                    document.getElementById('FirstPage').style.display = 'none';
+                    const secondPage = document.getElementById('SecondPage');
+                    secondPage.style.display = 'flex';
+
+                    // Play the two audio files
+                    const happyBirthdayAudio = document.getElementById('happyBirthday');
+                    const fireworkSound = document.querySelector('audio[src="loud-short-firework-pop-180115.mp3"]');
+
+                    // Ensure the audio elements are loaded and play them
+                    happyBirthdayAudio.play();
+                    fireworkSound.play();
+                } else {
+                    // Create a new balloon only if we have not reached the max count
+                    createNewBalloon();
+
+                    // Change background color of FirstPage
+                    const firstPage = document.getElementById('FirstPage');
+                    const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    firstPage.style.backgroundColor = randomColor;
+                }
+            }, { once: true });
+        }
+
+        function createNewBalloon() {
+            // Create new balloon element
+            const newBalloon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            newBalloon.setAttribute('width', '244');
+            newBalloon.setAttribute('height', '303');
+            newBalloon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            newBalloon.setAttribute('onclick', 'handleBalloonClick(this)');
+            newBalloon.classList.add('balloon'); // Add balloon class to apply the animation
+
+            // Set the new balloon color and text
+            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            newBalloon.innerHTML = `
+        <g fill="none" fill-rule="evenodd">
+            <path stroke="#D5D5D5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M121.871 204L121 303"></path>
+            <g transform="translate(73 69)">
+                <ellipse fill="${color}" fill-rule="nonzero" cx="48.752" cy="59.286" rx="48.752" ry="59.286"></ellipse>
+                <path d="M50.796 114.923l7.888 13.523a1.5 1.5 0 01-1.296 2.256H41.612a1.5 1.5 0 01-1.296-2.256l7.888-13.523a1.5 1.5 0 012.592 0z" fill="${color}"></path>
+                <ellipse fill="#FFF" opacity=".25" cx="20.204" cy="62.7" rx="8.083" ry="23.1"></ellipse>
+            </g>
+            <text font-family="RobotoSlab-Bold, Roboto Slab" font-size="36" font-weight="bold" fill="#FFF">
+                <tspan x="50%" y="142" text-anchor="middle" class="select-none">${balloonCount}</tspan>
+            </text>
+        </g>
+    `;
+
+            // Add the new balloon to the container
+            const balloonsContainer = document.getElementById('balloons');
+            balloonsContainer.appendChild(newBalloon);
+        }
+
+    </script>
+</body>
+
+</html>
